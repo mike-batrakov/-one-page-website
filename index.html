@@ -19,6 +19,7 @@
     <script>
         const chatLog = document.getElementById('chat-log');
         const userInput = document.getElementById('user-input');
+        const openaiApiKey = 'Bearer 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';
 
         async function sendMessage() {
             const userMessage = userInput.value.trim();
@@ -27,13 +28,11 @@
                 addUserMessage(userMessage);
                 userInput.value = '';
 
-                const openaiApiKey = 'Bearer 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';
-
                 const response = await fetch('https://api.openai.com/v1/chat/completions', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${openaiApiKey}`
+                        'Authorization': openaiApiKey
                     },
                     body: JSON.stringify({
                         model: 'gpt-3.5-turbo',
@@ -48,12 +47,6 @@
                 const assistantReply = data.choices[0].message.content;
                 addAssistantMessage(assistantReply);
             }
-        }
-
-        async function getOpenaiApiKey() {
-        const response = await fetch('/getOpenaiApiKey');
-        const data = await response.json();
-        return data.openaiApiKey;
         }
 
         function addUserMessage(message) {
